@@ -65,11 +65,16 @@ butt0.addEventListener("click", () => {
     document.querySelector(".displayValue").textContent += 0;
     displayValue += 0;
 });
+const buttDot = document.querySelector("#buttDot");
+buttDot.addEventListener("click", () => {
+    document.querySelector(".displayValue").textContent += ".";
+    displayValue += ".";
+});
 
 // operator-button functionality
 const buttAdd = document.querySelector("#buttAdd");
 buttAdd.addEventListener("click", () => {
-    a = parseInt(displayValue); 
+    a = parseFloat(displayValue); 
     displayValue = "";
     console.log(a);
     document.querySelector(".displayValue").textContent += "+";
@@ -77,7 +82,7 @@ buttAdd.addEventListener("click", () => {
 });
 const buttSub = document.querySelector("#buttSub");
 buttSub.addEventListener("click", () => {
-    a = parseInt(displayValue);
+    a = parseFloat(displayValue);
     displayValue = "";
     console.log(a);
     document.querySelector(".displayValue").textContent += "-";
@@ -85,7 +90,7 @@ buttSub.addEventListener("click", () => {
 })
 const buttMult = document.querySelector("#buttMult");
 buttMult.addEventListener("click", () => {
-    a = parseInt(displayValue); 
+    a = parseFloat(displayValue); 
     displayValue = "";
     console.log(a);
     document.querySelector(".displayValue").textContent += "*";
@@ -93,7 +98,7 @@ buttMult.addEventListener("click", () => {
 });
 const buttDiv = document.querySelector("#buttDiv");
 buttDiv.addEventListener("click", () => {
-    a = parseInt(displayValue); 
+    a = parseFloat(displayValue); 
     displayValue = "";
     console.log(a);
     document.querySelector(".displayValue").textContent += "/";
@@ -109,7 +114,7 @@ const buttEqual = document.querySelector("#buttEqual");
 buttEqual.addEventListener("click", () => {
     document.querySelector(".currentOperation").textContent = document.querySelector(".displayValue").textContent;
     console.log(`a = ${a}`);
-    b = parseInt(displayValue);
+    b = parseFloat(displayValue);
     console.log(`b = ${b}`);
     operate(a,operator,b);
 });    
@@ -147,16 +152,20 @@ function operate(a, operator, b) {
 
 // functions for basic math operators; take number a and number b;
 function add(a,b) {
-    return sum = a + b;    
+    sum = a + b; 
+    return sum.toFixed(10);   
 }
 function subtract(a,b) {
-    return difference = a - b;
+    difference = a - b;
+    return difference.toFixed(10);
 }
 function multiply(a,b) {
-    return product = a * b;
+    product = a * b;
+    return product.toFixed(10);
 }
 function division(a,b) {
-    return quotient = a / b;
+    quotient = a / b;
+    return quotient.toFixed(10);
 };
 
 
