@@ -102,10 +102,12 @@ buttDiv.addEventListener("click", () => {
 const buttClear = document.querySelector("#buttClear");
 buttClear.addEventListener("click", () => {
     document.querySelector(".displayValue").textContent = "";
+    document.querySelector(".currentOperation").textContent = "";
     displayValue = "";
 });    
 const buttEqual = document.querySelector("#buttEqual");
 buttEqual.addEventListener("click", () => {
+    document.querySelector(".currentOperation").textContent = document.querySelector(".displayValue").textContent;
     console.log(`a = ${a}`);
     b = parseInt(displayValue);
     console.log(`b = ${b}`);
@@ -116,19 +118,28 @@ buttEqual.addEventListener("click", () => {
 // for calling math functions with number a, b and the chosen operator
 function operate(a, operator, b) {
     if (operator === "+") {
-        console.log("sum")
         add(a,b);
         document.querySelector(".displayValue").textContent = sum;
+        displayValue = sum;
+        console.log(`${displayValue} = a`);
     } else if (operator === "-") {
         console.log("difference")
         subtract(a,b);
         document.querySelector(".displayValue").textContent = difference;
+        displayValue = difference;
     } else if (operator ==="*") {
         multiply(a,b);
         document.querySelector(".displayValue").textContent = product;
+        displayValue = product;
     } else if (operator ==="/") {
         division(a,b);
-        document.querySelector(".displayValue").textContent = quotient;
+        console.log(`quotient = ${quotient}`);
+        if (quotient == "Infinity") {
+            document.querySelector(".displayValue").textContent = "You Dummy!";
+            displayValue = quotient;
+        } else {
+            document.querySelector(".displayValue").textContent = quotient ;    
+        }   
     } 
 };
 
@@ -146,6 +157,6 @@ function multiply(a,b) {
 }
 function division(a,b) {
     return quotient = a / b;
-}
+};
 
 
