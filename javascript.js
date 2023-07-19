@@ -9,14 +9,31 @@ const operators = document.querySelectorAll(".operator")
 const clear = document.querySelector("#clear");
 const equal = document.querySelector(".equal");
 const dot = document.querySelector(".dot")
-let displayValue = display.textContent;
 
+let digitAlreadyAdded = false;
+
+// keyboard-support ==> !!not finished!!
+document.addEventListener("keydown", (event) => {
+    num.forEach((num) => {
+        console.log("first")
+       if (event.key === num.textContent) {
+       addDigitToDisplay(event.key);
+       }
+    })
+});
+
+// add digit to display
+function addDigitToDisplay(digit) {
+    display.textContent += digit;
+}
 
 // digit-button functionality
 num.forEach((num) => {
-    num.addEventListener("click", () => display.textContent += num.textContent); 
-    
+    num.addEventListener("click", () => {
+        display.textContent += num.textContent;
+    });
 });    
+  
 
 // operate function
 function operate() {
@@ -29,8 +46,6 @@ function operate() {
     calculate(a,operator,b);
  }
  
-
-
 // operator-button function
 operators.forEach((operators) => {
     operators.addEventListener("click", () => {
@@ -60,7 +75,7 @@ equal.addEventListener("click", () => {
 // // dot-button 
 dot.addEventListener("click", () => {
 
-    if(isDotAlreadyPresent(displayValue)) {
+    if(isDotAlreadyPresent(display.textContent)) {
        
         dot.disabled = true;
         console.log("disabled")
