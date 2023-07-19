@@ -1,7 +1,7 @@
 let operator;
 let a;
 let b;
-
+let possOp;
 
 const num = document.querySelectorAll(".num");
 const display = document.querySelector(".display");
@@ -14,13 +14,28 @@ num.forEach((num) => {
     num.addEventListener("click", () => display.textContent += num.textContent); 
     
 });    
+
+// operate function
+function operate() {
+    let operatorIndex = possOp.findIndex(element => (element === "+" || element ==="-"));
+    console.log(operatorIndex, possOp)
+    a = parseFloat(possOp.slice( 0, operatorIndex).join(""));
+    b = parseFloat(possOp.slice(operatorIndex +1).join(""));
+    operator = possOp[operatorIndex];
+    console.log(a, b, operator)
+    calculate(a,operator,b);
+ }
+ 
+
+
 // operator-button function
 operators.forEach((operators) => {
     operators.addEventListener("click", () => {
         
         if (checkIfOperatorInputted()) {
-            console.log("i work")
-            operate();
+            console.log("i work");
+            operate(possOp);
+            display.textContent += operators.textContent;
         } else {
             console.log("i work 2")
             display.textContent += operators.textContent;
@@ -32,11 +47,10 @@ operators.forEach((operators) => {
 // clear-button
 clear.addEventListener("click", () => display.textContent = "");
 
-
 // check if an operator is already in the display
 function checkIfOperatorInputted() {
-    console.log(display.textContent)
-    let possOp = Array.from(display.textContent);
+    // get display-content and trim whitespace
+    possOp = Array.from(display.textContent).filter(element => element.trim())
     if (possOp.includes("+") || possOp.includes("-") || possOp.includes("*") || possOp.includes("/")) {
         return true
     } else { 
@@ -44,10 +58,7 @@ function checkIfOperatorInputted() {
     }
     };
 
-//     // operate function
-//  function operate() {
-//     a = display.textContent.
-//  }   
+
 
 
 
@@ -82,16 +93,14 @@ function checkIfOperatorInputted() {
 
 // for calling math functions with number a, b and the chosen operator
 
-function operate(a, operator, b) {
+function calculate(a, operator, b) {
     if (operator === "+") {
         add(a,b);
-        displayText.textContent = sum;
-        display = sum;
-        console.log(`${display} = a`);
+        return display.textContent = sum;
+        
     } else if (operator === "-") {
         subtract(a,b);
-        displayText.textContent = difference;
-        display = difference;
+        return display.textContent = difference;
     } else if (operator ==="*") {
         multiply(a,b);
         displayText.textContent = product;
