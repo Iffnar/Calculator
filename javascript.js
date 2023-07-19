@@ -7,6 +7,9 @@ const num = document.querySelectorAll(".num");
 const display = document.querySelector(".display");
 const operators = document.querySelectorAll(".operator")
 const clear = document.querySelector("#clear");
+const equal = document.querySelector(".equal");
+const dot = document.querySelector(".dot")
+let displayValue = display.textContent;
 
 
 // digit-button functionality
@@ -17,7 +20,7 @@ num.forEach((num) => {
 
 // operate function
 function operate() {
-    let operatorIndex = possOp.findIndex(element => (element === "+" || element ==="-"));
+    let operatorIndex = possOp.findIndex(element => (element === "+" || element ==="-") || element ==="*" || element ==="/");
     console.log(operatorIndex, possOp)
     a = parseFloat(possOp.slice( 0, operatorIndex).join(""));
     b = parseFloat(possOp.slice(operatorIndex +1).join(""));
@@ -36,16 +39,63 @@ operators.forEach((operators) => {
             console.log("i work");
             operate(possOp);
             display.textContent += operators.textContent;
+            
         } else {
             console.log("i work 2")
             display.textContent += operators.textContent;
-            
+            // enable the dot-Button again because it may be disabled form the user tying to input multiple dots before
+            dot.disabled = false;
         }    
     });
 });
 
 // clear-button
 clear.addEventListener("click", () => display.textContent = "");
+
+//equal-button
+equal.addEventListener("click", () => {
+    possOp = Array.from(display.textContent).filter(element => element.trim());
+    operate(possOp)
+});
+// // dot-button 
+dot.addEventListener("click", () => {
+
+    if(isDotAlreadyPresent(displayValue)) {
+       
+        dot.disabled = true;
+        console.log("disabled")
+    } else {
+        dot.disabled = false;
+        console.log("active")
+        display.textContent += "."
+    }});
+    
+// function to check if there already is a dot in the display
+function isDotAlreadyPresent() {
+    let operatorFound = false;
+    let dotAlreadyThere = false
+    possOp = Array.from(display.textContent).filter(element => element.trim());        
+    console.log(possOp.length)
+
+        for (let i = possOp.length -1; i >= 0; i--) {
+            const char = possOp[i];
+            console.log(`${i} = i`)
+            console.log(`${char} = character`)
+            
+            if (char === "+" || char === "-" || char === "*" || char === "/") {
+                console.log("break")
+                operatorFound = true;
+                break;
+                
+            } else  if (char === ".") {
+                console.log("dotAlreadyThere")
+                dotAlreadyThere = true;
+            }};
+            console.log(operatorFound)
+            console.log(dotAlreadyThere)
+       return operatorFound ? false : dotAlreadyThere;
+    };
+
 
 // check if an operator is already in the display
 function checkIfOperatorInputted() {
@@ -55,41 +105,8 @@ function checkIfOperatorInputted() {
         return true
     } else { 
         return false  
-    }
-    };
-
-
-
-
-
-// operator-button functionality
-// const buttAdd = document.querySelector("#buttAdd");
-// buttAdd.addEventListener("click", () => {
-//     if (displayText.textContent.includes("-") || displayText.textContent.includes ("*") || displayText.textContent.includes ("/") || displayText.textContent.includes ("+")) {
-//         b = parseFloat(display);
-//        (operate(a,operator,b));
-//        document.querySelector(".currentOperation").textContent = displayText.textContent;
-//        a = sum;
-//        displayText.textContent = "+";
-       
-//     } else { 
-//         a = parseFloat(display);
-//         display = "";
-//         displayText.textContent += "+";
-//         console.log(a);
-//         operator = "+";
-//     };
-// });
-// 
- 
-// const buttEqual = document.querySelector("#buttEqual");
-// buttEqual.addEventListener("click", () => {
-//     document.querySelector(".currentOperation").textContent = displayText.textContent;
-//     console.log(`a = ${a}`);
-//     b = parseFloat(display);
-//     console.log(`b = ${b}`);
-//     operate(a,operator,b);
-// });    
+    }};
+   
 
 // for calling math functions with number a, b and the chosen operator
 
@@ -103,16 +120,13 @@ function calculate(a, operator, b) {
         return display.textContent = difference;
     } else if (operator ==="*") {
         multiply(a,b);
-        displayText.textContent = product;
-        display = product;
+        return display.textContent = product;
     } else if (operator ==="/") {
         division(a,b);
-        console.log(`quotient = ${quotient}`);
         if (quotient == "Infinity") {
-            displayText.textContent = "You Dummy!";
-            display = quotient;
+            display.textContent = "You Dummy!";
         } else {
-            displayText.textContent = quotient ;    
+            return display.textContent = quotient;    
         }   
     } 
 };
